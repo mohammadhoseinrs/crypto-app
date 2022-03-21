@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react'
+import {  useRoutes } from 'react-router-dom'
+import { Navbar , Footer } from './components'
+import routes from './routes'
+import {QueryClientProvider , QueryClient} from 'react-query'
 
-function App() {
+export default function App() {
+ 
+  const queryClient=new QueryClient()
+  const [darkTheme,setDarkTheme]=useState(true)
+  const router=useRoutes(routes)
+  const [menu,setMenu]=useState(false)
+  
+ 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <QueryClientProvider client={queryClient}>
+    <div className={darkTheme ? 'dark' : ''}>
+      <div className='bg-gray-100 dark:bg-gray-900 dark:text-gray-200 min-h-screen'>
+        <div className='flex'>
+          <div>
+          <Navbar darkTheme={darkTheme} setDarkTheme={setDarkTheme} />
+          </div>
+          <div className='flex-1 flex flex-col '>
+            <div className='flex-1'>
+             {router} 
+            </div>
+            <Footer  />
+          </div>
+        
+        </div>
+        
+      </div>
+      
+   </div>
+   </QueryClientProvider>
+  )
 }
-
-export default App;
